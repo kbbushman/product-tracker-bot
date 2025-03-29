@@ -52,3 +52,31 @@ def add_product(name, url, threshold):
             print(f"Error adding product: {e}")
         finally:
             conn.close()
+
+
+def get_products():
+    conn = create_connection()
+    products = []
+    if conn:
+        try:
+            cursor = conn.cursor()
+            cursor.execute("SELECT id, name, url, threshold, date_added FROM products;")
+
+            # Fetch all rows and convert them into dictionaries
+            rows = cursor.fetchall()
+
+            for row in rows:
+                product = {
+                    "id": row[0],
+                    "name": row[1],
+                    "url": row[2],
+                    "threshold": row[3],
+                    "date_added": row[4],
+                }
+                products.append(product)
+        except Error as e:
+            print(f"Error fetching products: {e}")
+        finally:
+            conn.close()
+
+    return products
