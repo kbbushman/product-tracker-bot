@@ -1,5 +1,5 @@
 import click
-from product_tracker.database import add_product, get_products
+from product_tracker.database import add_product, get_products, delete_product
 
 
 @click.group()
@@ -32,9 +32,18 @@ def list():
             )
 
 
+@click.command()
+@click.argument("product_id")
+def delete(product_id):
+    """Delete a product from the database"""
+    delete_product(product_id)
+    click.echo(f"Deleted product with ID {product_id}")
+
+
 # Register commands
 cli.add_command(add)
 cli.add_command(list)
+cli.add_command(delete)
 
 if __name__ == "__main__":
     cli()

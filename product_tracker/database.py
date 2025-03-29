@@ -54,6 +54,23 @@ def add_product(name, url, threshold):
             conn.close()
 
 
+# Delete a product from the database
+def delete_product(product_id):
+    conn = create_connection()
+    if conn:
+        try:
+            sql_delete_product = """
+              DELETE FROM products WHERE id = ?;
+            """
+            cursor = conn.cursor()
+            cursor.execute(sql_delete_product, (product_id,))
+            conn.commit()
+        except Error as e:
+            print(f"Error deleting product: {e}")
+        finally:
+            conn.close()
+
+
 def get_products():
     conn = create_connection()
     products = []
