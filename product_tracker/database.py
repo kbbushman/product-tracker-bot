@@ -34,3 +34,21 @@ def create_table():
             print(e)
         finally:
             conn.close()
+
+
+# Add a product to the database
+def add_product(name, url, threshold):
+    conn = create_connection()
+    if conn:
+        try:
+            sql_insert_product = """
+              INSERT INTO products (name, url, threshold)
+              values (?, ?, ?);
+            """
+            cursor = conn.cursor()
+            cursor.execute(sql_insert_product, (name, url, threshold))
+            conn.commit()
+        except Error as e:
+            print(f"Error adding product: {e}")
+        finally:
+            conn.close()
